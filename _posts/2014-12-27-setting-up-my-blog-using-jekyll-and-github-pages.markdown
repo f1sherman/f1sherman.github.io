@@ -32,12 +32,32 @@ Jekyll seemed like a good choice for a blogging platform because it is supported
 
 ![Scaffolding](/images/scaffolding.png)
 
+Theme
+=====
+
+I decided to stick with the base Jekyll theme for now, mostly because I wanted to start generating content as soon as possible and this seemed like it could be a rabbit hole. At some point I'll probably rip it out and try something more fancy.
+
+Google Analytics
+================
+
+[Google Analytics][google-analytics] is a great, free way to track the popularity of your site. I created a `_includes/google-analytics.html` fragment with the GA tracking code and added that to `_layouts/default.html`.
+
+{% highlight html %}
+<SNIP>
+
+  <body>
+    {{ "{% include google-analytics.html " }}%}
+
+<SNIP>
+{% endhighlight %}
+
 
 [custom-domain]:      https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/
 [github-jekyll]:      https://help.github.com/articles/using-jekyll-with-pages/
 [github-pages]:       https://pages.github.com/
+[google-analytics]:   http://www.google.com/analytics/
 [jekyll]:             http://jekyllrb.com
-[jekyll-docs]:       http://jekyllrb.com/docs/home/
+[jekyll-docs]:        http://jekyllrb.com/docs/home/
 [markdown]:           https://en.wikipedia.org/wiki/Markdown
 [marketing-podcast]:  http://devchat.tv/ruby-rogues/187-marketing-yourself-as-a-software-developer-with-john-sonmez
 [ruby-rogues]:        http://rubyrogues.com
