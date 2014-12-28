@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Setting up my blog using Jekyll and GitHub Pages"
+permalink: "/setting-up-my-blog.html"
 date:   2014-12-27 20:04:49
 categories: howto
 ---
