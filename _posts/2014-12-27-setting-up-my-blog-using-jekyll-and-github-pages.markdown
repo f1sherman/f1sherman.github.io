@@ -69,7 +69,7 @@ I decided to use [disqus][disqus] for commenting because it was familiar and eas
 About Page
 ==========
 
-I removed the About page that Jekyll creates because I wasn't ready to tackle this yet and I wanted to get the site up as soon as possible. I may add this back later.
+I [removed][remove-about-commit] the About page that Jekyll creates because I wasn't ready to tackle this yet and I wanted to get the site up as soon as possible. I may add this back later.
 
 [custom-domain]:        https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/
 [disqus]:               https://disqus.com/
@@ -83,6 +83,7 @@ I removed the About page that Jekyll creates because I wasn't ready to tackle th
 [jekyll-docs]:          http://jekyllrb.com/docs/home/
 [markdown]:             https://en.wikipedia.org/wiki/Markdown
 [marketing-podcast]:    http://devchat.tv/ruby-rogues/187-marketing-yourself-as-a-software-developer-with-john-sonmez
+[remove-about-commit]:  https://github.com/f1sherman/f1sherman.github.io/commit/125b5580d79988efc803772ed3a8e314e099ed46
 [ruby-rogues]:          http://rubyrogues.com
 [simple-programmer]:    http://simpleprogrammer.com
 [social-media-icons]:   http://codepen.io/ruandre/pen/howFi
