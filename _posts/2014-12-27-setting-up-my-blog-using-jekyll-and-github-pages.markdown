@@ -77,6 +77,11 @@ I added the [Tweet button resource from Twitter][tweet-button] to the post layou
 
 ![Tweet Button](/images/tweet-button.png)
 
+Sitemap/robots.txt
+==================
+
+It's a good idea to have a Sitemap and robots.txt to make it easier for search engines to crawl your site. I followed the [Github Pages Sitemap instructions][sitemap-instructions] to get a sitemap setup, then added a robots.txt file pointing to it.
+
 [custom-domain]:        https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/
 [disqus]:               https://disqus.com/
 [disqus-html]:          https://github.com/f1sherman/f1sherman.github.io/blob/f79093961e1eb5b434941d1b286f6baa0da381d3/_includes/disqus.html
@@ -92,6 +97,7 @@ I added the [Tweet button resource from Twitter][tweet-button] to the post layou
 [remove-about-commit]:  https://github.com/f1sherman/f1sherman.github.io/commit/125b5580d79988efc803772ed3a8e314e099ed46
 [ruby-rogues]:          http://rubyrogues.com
 [simple-programmer]:    http://simpleprogrammer.com
+[sitemap-instructions]: https://help.github.com/articles/sitemaps-for-github-pages/
 [social-media-icons]:   http://codepen.io/ruandre/pen/howFi
 [social-media-markup]:  https://github.com/f1sherman/f1sherman.github.io/blob/1544d0076db82b050951f08fc7c70bb4f11ccd14/_includes/footer.html#L17-L68
 [sonmez-twitter]:       https://twitter.com/jsonmez

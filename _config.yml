@@ -13,3 +13,6 @@ twitter_username: brianpjohn
 
 # Build settings
 markdown: kramdown
+
+gems:
+  - jekyll-sitemap
