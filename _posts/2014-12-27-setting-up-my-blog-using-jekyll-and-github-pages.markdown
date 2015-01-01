@@ -59,7 +59,17 @@ I wanted to add some social media links to my footer (in addition to the github 
 
 ![Social Media Icons](/images/social-media-icons.png)
 
+Comments
+========
+
+I decided to use [disqus][disqus] for commenting because it was familiar and easy to setup. I used the wizard on the disqus site to set up the commenting account, then added the code that it provided to [_includes/disqus.html][disqus-html] and included it in [_layouts/post.html][disqus-include].
+
+![Disqus Comments](/images/disqus.png)
+
 [custom-domain]:        https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/
+[disqus]:               https://disqus.com/
+[disqus-html]:          http://example.com
+[disqus-include]:       http://example.com
 [github-jekyll]:        https://help.github.com/articles/using-jekyll-with-pages/
 [github-pages]:         https://pages.github.com/
 [google-analytics]:     http://www.google.com/analytics/
@@ -74,3 +84,5 @@ I wanted to add some social media links to my footer (in addition to the github 
 [social-media-markup]:  https://github.com/f1sherman/f1sherman.github.io/blob/1544d0076db82b050951f08fc7c70bb4f11ccd14/_includes/footer.html#L17-L68
 [sonmez-twitter]:       https://twitter.com/jsonmez
 [svg-editor]:           http://petercollingridge.appspot.com/svg-editor
+
+
