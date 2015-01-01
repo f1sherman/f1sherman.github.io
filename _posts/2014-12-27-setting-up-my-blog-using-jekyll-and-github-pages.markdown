@@ -52,15 +52,24 @@ Google Analytics
 <SNIP>
 {% endhighlight %}
 
+Social Media Icons
+==================
+
+I wanted to add some social media links to my footer (in addition to the github and twitter links that are included with jekyll), but had some trouble finding SVGs that would work with the default theme. Eventually I stumbled upon [this set of svgs][social-media-icons] which was helpful not only for the SVGs themselves, but also for the idea to get icons from [iconmonstr][iconmonstr] and compress them using [this SVG Editor][svg-editor] for icons that weren't included.
+
+![Social Media Icons](/images/social-media-icons.png)
 
 [custom-domain]:      https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/
 [github-jekyll]:      https://help.github.com/articles/using-jekyll-with-pages/
 [github-pages]:       https://pages.github.com/
 [google-analytics]:   http://www.google.com/analytics/
+[iconmonstr]:         http://iconmonstr.com
 [jekyll]:             http://jekyllrb.com
 [jekyll-docs]:        http://jekyllrb.com/docs/home/
 [markdown]:           https://en.wikipedia.org/wiki/Markdown
 [marketing-podcast]:  http://devchat.tv/ruby-rogues/187-marketing-yourself-as-a-software-developer-with-john-sonmez
 [ruby-rogues]:        http://rubyrogues.com
 [simple-programmer]:  http://simpleprogrammer.com
+[social-media-icons]: http://codepen.io/ruandre/pen/howFi
 [sonmez-twitter]:     https://twitter.com/jsonmez
+[svg-editor]:         http://petercollingridge.appspot.com/svg-editor
