@@ -66,6 +66,11 @@ I decided to use [disqus][disqus] for commenting because it was familiar and eas
 
 ![Disqus Comments](/images/disqus.png)
 
+About Page
+==========
+
+I removed the About page that Jekyll creates because I wasn't ready to tackle this yet and I wanted to get the site up as soon as possible. I may add this back later.
+
 [custom-domain]:        https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/
 [disqus]:               https://disqus.com/
 [disqus-html]:          https://github.com/f1sherman/f1sherman.github.io/blob/f79093961e1eb5b434941d1b286f6baa0da381d3/_includes/disqus.html
