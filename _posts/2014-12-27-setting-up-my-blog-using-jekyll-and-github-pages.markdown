@@ -71,6 +71,12 @@ About Page
 
 I [removed][remove-about-commit] the About page that Jekyll creates because I wasn't ready to tackle this yet and I wanted to get the site up as soon as possible. I may add this back later.
 
+Tweet Button
+============
+I added the [Tweet button resource from Twitter][tweet-button] to the post layout to make it easy for readers to tweet my posts.
+
+![Tweet Button](/images/tweet-button.png)
+
 [custom-domain]:        https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/
 [disqus]:               https://disqus.com/
 [disqus-html]:          https://github.com/f1sherman/f1sherman.github.io/blob/f79093961e1eb5b434941d1b286f6baa0da381d3/_includes/disqus.html
@@ -90,5 +96,6 @@ I [removed][remove-about-commit] the About page that Jekyll creates because I wa
 [social-media-markup]:  https://github.com/f1sherman/f1sherman.github.io/blob/1544d0076db82b050951f08fc7c70bb4f11ccd14/_includes/footer.html#L17-L68
 [sonmez-twitter]:       https://twitter.com/jsonmez
 [svg-editor]:           http://petercollingridge.appspot.com/svg-editor
+[tweet-button]:         https://about.twitter.com/resources/buttons#tweet
 
 
