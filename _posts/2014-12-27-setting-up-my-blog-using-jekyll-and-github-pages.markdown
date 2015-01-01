@@ -68,8 +68,8 @@ I decided to use [disqus][disqus] for commenting because it was familiar and eas
 
 [custom-domain]:        https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/
 [disqus]:               https://disqus.com/
-[disqus-html]:          http://example.com
-[disqus-include]:       http://example.com
+[disqus-html]:          https://github.com/f1sherman/f1sherman.github.io/blob/f79093961e1eb5b434941d1b286f6baa0da381d3/_includes/disqus.html
+[disqus-include]:       https://github.com/f1sherman/f1sherman.github.io/blob/f79093961e1eb5b434941d1b286f6baa0da381d3/_layouts/post.html#L17
 [github-jekyll]:        https://help.github.com/articles/using-jekyll-with-pages/
 [github-pages]:         https://pages.github.com/
 [google-analytics]:     http://www.google.com/analytics/
