@@ -1,4 +1,3 @@
 User-agent: *
 Disallow:
-
 Sitemap: http://blog.brianjohn.com/sitemap.xml

@@ -82,6 +82,12 @@ Sitemap/robots.txt
 
 It's a good idea to have a Sitemap and robots.txt to make it easier for search engines to crawl your site. I followed the [Github Pages Sitemap instructions][sitemap-instructions] to get a sitemap setup, then added a robots.txt file pointing to it.
 
+{% highlight text %}
+User-agent: *
+Disallow:
+Sitemap: http://blog.brianjohn.com/sitemap.xml
+{% endhighlight %}
+
 [custom-domain]:        https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/
 [disqus]:               https://disqus.com/
 [disqus-html]:          https://github.com/f1sherman/f1sherman.github.io/blob/f79093961e1eb5b434941d1b286f6baa0da381d3/_includes/disqus.html
