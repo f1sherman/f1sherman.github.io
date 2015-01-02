@@ -44,12 +44,10 @@ Google Analytics
 [Google Analytics][google-analytics] is a great, free way to track the popularity of your site. I created a `_includes/google-analytics.html` fragment with the GA tracking code and added that to `_layouts/default.html`.
 
 {% highlight html %}
-<SNIP>
-
-  <body>
+  <head>
+    <SNIP>
     {{ "{% include google-analytics.html " }}%}
-
-<SNIP>
+  </head>
 {% endhighlight %}
 
 Social Media Icons
