@@ -2,20 +2,20 @@
 layout: post
 title:  "Setting up my blog using Jekyll and GitHub Pages"
 permalink: "/setting-up-my-blog.html"
-date:   2014-12-27 20:04:49
+date:   2015-01-01 18:04:49
 categories: howto
 ---
-I was listening to a recent [Ruby Rogues][ruby-rogues] podcast on [Marketing Yourself as a Software Developer][marketing-podcast]. During this episode [John Sonmez][sonmez-twitter], who runs the site [Simple Programmer][simple-programmer] gives some great reasons as to why you should market yourself as a software developer, as well as some excellent ways to do that. One of the ideas was to create a blog. This is something I've wanted to do for a long time, but I've never really enjoyed writing and I've always felt like it would be a chore to have to come up with topics. John had a great idea related to this that is simple but that I'd never thought of: just blog about what you're already doing or working on. I decided I'm going to give this a try. Normally I don't do New Year's resolutions because I find it easier to start making changes right away, but the timing is right. This year my New Year's resolution is going to be to write at least 10 blog posts in 2015. That seems pretty doable. So, predictably, my first post is going to be about creating my blog.
+Last week I was listening to a recent [Ruby Rogues][ruby-rogues] podcast on [Marketing Yourself as a Software Developer][marketing-podcast]. During this episode [John Sonmez][sonmez-twitter], who runs the site [Simple Programmer][simple-programmer] gives some great reasons as to why you should market yourself as a software developer, as well as some excellent ways to do that. One of the ideas was to create a blog. This is something I've wanted to do for a long time, but I've never really enjoyed writing and I've always felt like it would be a chore to have to come up with topics. John had a great idea related to this that is simple but that I'd never thought of: just blog about what you're already doing or working on. I decided I'm going to give this a try. Normally I don't do New Year's resolutions, but the timing is right. For 2015 my New Year's resolution is going to be to write at least 10 blog posts in 2015. That seems pretty doable. So, predictably, my first post is about creating my blog.
 
 GitHub Pages
 ============
 
 [GitHub Pages][github-pages] seemed like a good choice for hosting my blog for a couple of reasons:
 
-1. I trust GitHub, and they will host my blog for free, so no messing around with a VPS or anything like that
+1. I use GitHub almost daily and they will host my blog for free, so no messing around with a VPS or anything like that
 2. They have built-in [Jekyll][jekyll] support, which is a great platform for blogging
 
-The initial setup with Pages was pretty simple and only took a few minutes. You can read the guide [here][github-pages] so I won't bore you with the details. After pushing my initial commit to my repository and waiting a few minutes for the changes to show up, I had a working blog at f1sherman.github.io.
+The initial setup with Pages was pretty simple and only took a few minutes. You can read the guide [here][github-pages] so I won't bore you with the details. After pushing the initial commit to my repository and waiting a few minutes for the changes to show up, I had a working blog at f1sherman.github.io.
 
 ![Hello World](/images/hello-world.png)
 
@@ -71,7 +71,7 @@ I [removed][remove-about-commit] the About page that Jekyll creates because I wa
 
 Tweet Button
 ============
-I added the [Tweet button resource from Twitter][tweet-button] to the post layout to make it easy for readers to tweet my posts.
+I added the [Tweet button resource from Twitter][tweet-button] to the post layout to make it easy for readers to share my posts.
 
 ![Tweet Button](/images/tweet-button.png)
 
@@ -102,6 +102,7 @@ Updating Social Media Sites
 ===========================
 
 Many Social Media sites allow you to list your site in your profile. I went through as many sites as I could think of and added my blog. Here is a list of the ones I could think of:
+
 * Facebook
 * Github
 * Google+
