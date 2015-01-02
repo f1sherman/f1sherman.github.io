@@ -86,6 +86,11 @@ Disallow:
 Sitemap: http://blog.brianjohn.com/sitemap.xml
 {% endhighlight %}
 
+Submit to Google index
+======================
+
+I used [Google Webmaster Tools][webmaster-tools] to submit my site to Google's search index to make sure my site shows up in Google searches. I've seen this take up to a week to take affect, so don't expect it to show up right away.
+
 [custom-domain]:        https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/
 [disqus]:               https://disqus.com/
 [disqus-html]:          https://github.com/f1sherman/f1sherman.github.io/blob/f79093961e1eb5b434941d1b286f6baa0da381d3/_includes/disqus.html
@@ -107,5 +112,4 @@ Sitemap: http://blog.brianjohn.com/sitemap.xml
 [sonmez-twitter]:       https://twitter.com/jsonmez
 [svg-editor]:           http://petercollingridge.appspot.com/svg-editor
 [tweet-button]:         https://about.twitter.com/resources/buttons#tweet
-
-
+[webmaster-tools]:      https://www.google.com/webmasters/tools/home?hl=en
