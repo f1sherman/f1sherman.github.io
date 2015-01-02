@@ -5,14 +5,14 @@ permalink: "/setting-up-my-blog.html"
 date:   2015-01-01 18:04:49
 categories: howto
 ---
-Last week I was listening to a recent [Ruby Rogues][ruby-rogues] podcast on [Marketing Yourself as a Software Developer][marketing-podcast]. During this episode [John Sonmez][sonmez-twitter], who runs the site [Simple Programmer][simple-programmer] gives some great reasons as to why you should market yourself as a software developer, as well as some excellent ways to do that. One of the ideas was to create a blog. This is something I've wanted to do for a long time, but I've never really enjoyed writing and I've always felt like it would be a chore to have to come up with topics. John had a great idea related to this that is simple but that I'd never thought of: just blog about what you're already doing or working on. I decided I'm going to give this a try. Normally I don't do New Year's resolutions, but the timing is right. For 2015 my New Year's resolution is going to be to write at least 10 blog posts in 2015. That seems pretty doable. So, predictably, my first post is about creating my blog.
+Last week I was listening to a recent [Ruby Rogues][ruby-rogues] podcast on [Marketing Yourself as a Software Developer][marketing-podcast]. During this episode [John Sonmez][sonmez-twitter], who runs the site [Simple Programmer][simple-programmer] gives some great reasons as to why you should market yourself as a software developer, as well as some excellent ways to do that. One of the ideas was to create a blog. Sounds like a great idea to me. So, predictably, my first post is about creating my blog.
 
 GitHub Pages
 ============
 
-[GitHub Pages][github-pages] seemed like a good choice for hosting my blog for a couple of reasons:
+[GitHub Pages][github-pages] is a good choice for hosting a blog for a couple of reasons:
 
-1. I use GitHub almost daily and they will host my blog for free, so no messing around with a VPS or anything like that
+1. Many developers (myself included) use GitHub nigh daily and they will host your blog for free, so no messing around with a VPS or WordPress or anything like that
 2. They have built-in [Jekyll][jekyll] support, which is a great platform for blogging
 
 The initial setup with Pages was pretty simple and only took a few minutes. You can read the guide [here][github-pages] so I won't bore you with the details. After pushing the initial commit to my repository and waiting a few minutes for the changes to show up, I had a working blog at f1sherman.github.io.
@@ -22,7 +22,7 @@ The initial setup with Pages was pretty simple and only took a few minutes. You 
 Custom Domain
 =============
 
-I wanted to host my blog on my personal domain. This was pretty easy and you can find instructions [here][custom-domain]. Basically it involves dropping a `CNAME` file into your repository and setting up the CNAME with your DNS provider.
+Hosting your blog on your personal domain is a nice way to further personalize your blog. This is pretty easy and you can find instructions [here][custom-domain]. Basically it involves dropping a `CNAME` file into your repository and setting up the CNAME with your DNS provider.
 
 ![CNAME](/images/cname.png)
 
@@ -53,7 +53,7 @@ Google Analytics
 Social Media Icons
 ==================
 
-I wanted to add some social media links to my footer (in addition to the github and twitter links that are included with jekyll), but had some trouble finding SVGs that would work with the default theme. Eventually I stumbled upon [this set of svgs][social-media-icons] which was helpful not only for the SVGs themselves, but also for the idea to get icons from [iconmonstr][iconmonstr] and compress them using [this SVG Editor][svg-editor] for icons that weren't included. See the [markup on github][social-media-markup] for the code.
+I wanted to add some social media links to my footer (in addition to the github and twitter links that are included with jekyll), but had a tough time finding SVGs that would fit in with the default theme. Eventually I stumbled upon [this set of svgs][social-media-icons] which was helpful not only for the SVGs themselves, but also for the idea to get icons from [iconmonstr][iconmonstr] and compress them using [this SVG Editor][svg-editor] for icons that weren't included. See the [markup on github][social-media-markup] for the code.
 
 ![Social Media Icons](/images/social-media-icons.png)
 
@@ -71,7 +71,8 @@ I [removed][remove-about-commit] the About page that Jekyll creates because I wa
 
 Tweet Button
 ============
-I added the [Tweet button resource from Twitter][tweet-button] to the post layout to make it easy for readers to share my posts.
+
+Adding the [Tweet button resource from Twitter][tweet-button] to the post layout will make it easy for readers to share my posts.
 
 ![Tweet Button](/images/tweet-button.png)
 
@@ -113,7 +114,7 @@ Many Social Media sites allow you to list your site in your profile. I went thro
 That's It!
 ==========
 
-Wow, that felt like a lot of work. Hopefully other folks with blogs (or that want to set one up) find this useful. I had a lot of fun putting this together and am optimistic that I'll stay on track to get more posts up in 2015. Thanks for reading!
+Wow, that felt like a lot of work but I had a lot of fun putting this together. Hopefully other folks with blogs (or that want to set one up) find this useful. Questions? Any other related tips or info? Leave a comment below! Thanks for reading!
 
 [custom-domain]:        https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/
 [disqus]:               https://disqus.com/
