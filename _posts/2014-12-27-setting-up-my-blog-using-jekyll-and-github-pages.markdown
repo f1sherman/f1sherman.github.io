@@ -98,6 +98,22 @@ I wasn't using my domain for anything important, so I set up brianjohn.com and w
 
 ![Redirect](/images/redirect.png)
 
+Updating Social Media Sites
+===========================
+
+Many Social Media sites allow you to list your site in your profile. I went through as many sites as I could think of and added my blog. Here is a list of the ones I could think of:
+* Facebook
+* Github
+* Google+
+* LinkedIn
+* Stack Overflow
+* Twitter
+
+That's It!
+==========
+
+Wow, that felt like a lot of work. Hopefully other folks with blogs (or that want to set one up) find this useful. I had a lot of fun putting this together and am optimistic that I'll stay on track to get more posts up in 2015. Thanks for reading!
+
 [custom-domain]:        https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/
 [disqus]:               https://disqus.com/
 [disqus-html]:          https://github.com/f1sherman/f1sherman.github.io/blob/f79093961e1eb5b434941d1b286f6baa0da381d3/_includes/disqus.html
