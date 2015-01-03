@@ -41,13 +41,13 @@ I decided to stick with the base Jekyll theme for now, mostly because I wanted t
 Google Analytics
 ================
 
-[Google Analytics][google-analytics] is a great, free way to track the popularity of your site. I created a `_includes/google-analytics.html` fragment with the GA tracking code and added that to `_layouts/default.html`.
+[Google Analytics][google-analytics] is a great, free way to track the popularity of your site. I created a `_includes/google-analytics.html` fragment with the GA tracking code and added that to `_layouts/head.html`.
 
 {% highlight html %}
-  <head>
-    <SNIP>
-    {{ "{% include google-analytics.html " }}%}
-  </head>
+<head>
+  <SNIP>
+  {{ "{% include google-analytics.html " }}%}
+</head>
 {% endhighlight %}
 
 Social Media Icons
