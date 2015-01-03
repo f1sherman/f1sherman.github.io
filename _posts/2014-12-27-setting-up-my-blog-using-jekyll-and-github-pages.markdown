@@ -102,7 +102,7 @@ I wasn't using my domain for anything important, so I set up brianjohn.com and w
 Updating Social Media Sites
 ===========================
 
-Many Social Media sites allow you to list your site in your profile. I went through as many sites as I could think of and added my blog. Here is a list of the ones I could think of:
+Many social media sites allow you to list your site in your profile. I went through as many sites as I could think of and added my blog. Here is a list of the ones I could think of:
 
 * Facebook
 * Github
