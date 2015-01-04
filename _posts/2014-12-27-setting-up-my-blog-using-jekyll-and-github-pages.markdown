@@ -12,7 +12,7 @@ GitHub Pages
 
 [GitHub Pages][github-pages] is a good choice for hosting a blog for a couple of reasons:
 
-1. Many developers (myself included) use GitHub nigh daily and they will host your blog for free, so no messing around with a VPS or WordPress or anything like that
+1. Many developers (myself included) use GitHub daily and they will host your blog for free, so no messing around with a VPS or WordPress or anything like that
 2. They have built-in [Jekyll][jekyll] support, which is a great platform for blogging
 
 The initial setup with Pages was pretty simple and only took a few minutes. You can read the guide [here][github-pages] so I won't bore you with the details. After pushing the initial commit to my repository and waiting a few minutes for the changes to show up, I had a working blog at f1sherman.github.io.
