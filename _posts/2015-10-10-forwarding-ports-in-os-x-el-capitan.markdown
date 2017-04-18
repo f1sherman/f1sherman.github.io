@@ -1,10 +1,12 @@
 ---
 layout: post
-title:  "Forwarding Ports in OS X El Capitan"
+title:  "Forwarding Ports in OS X/MacOS"
 permalink: "/forwarding-ports-in-os-x-el-capitan.html"
 date:   2015-10-10 17:00:00
 categories: howto
 ---
+
+Update: I have tested this with MacOS Sierra and it works for me!
 
 I forward local ports on my OS X machines using [pfctl][pfctl] so that I can use traditional ports for HTTP and HTTPS with [Vagrant][vagrant]
 without having to start vagrant with root privleges. Recently when I updated to OS X El Capitan (10.11) I noticed that
