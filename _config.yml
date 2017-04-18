@@ -2,8 +2,7 @@
 title: Brian's Blog
 email: brian@brianjohn.com
 description: > # this means to ignore newlines until "baseurl:"
-  The blog of Brian John. You're likely to find information related
-  to programming and random other musings here.
+  The personal blog of Brian John. You're likely to find information related to programming and random other musings here. All opinions are my own and do not represent the opinions of my employer or any other organization or person. Use of this website is strictly at your own risk.
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://blog.brianjohn.com" # the base hostname & protocol for your site
 facebook_username: brianjohn
