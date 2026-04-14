@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       nodes: renderTargets
     });
   } catch (error) {
-    for (const { nextSibling, original, parent, replacement } of restorations) {
+    for (const { nextSibling, original, parent, replacement } of restorations.toReversed()) {
       if (!parent || !replacement.isConnected) {
         continue;
       }
