@@ -5,37 +5,41 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  const { default: mermaid } = await import("https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.esm.min.mjs");
+  try {
+    const { default: mermaid } = await import("https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.esm.min.mjs");
 
-  mermaid.initialize({
-    startOnLoad: false,
-    securityLevel: "loose",
-    theme: "neutral"
-  });
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: "loose",
+      theme: "neutral"
+    });
 
-  const renderTargets = [];
+    const renderTargets = [];
 
-  for (const code of mermaidBlocks) {
-    const source = code.textContent.trim();
-    const pre = code.closest("pre");
-    const highlight = code.closest(".highlight");
-    const replacement = document.createElement("div");
+    for (const code of mermaidBlocks) {
+      const source = code.textContent.trim();
+      const pre = code.closest("pre");
+      const highlight = code.closest(".highlight");
+      const replacement = document.createElement("div");
 
-    replacement.className = "mermaid";
-    replacement.textContent = source;
+      replacement.className = "mermaid";
+      replacement.textContent = source;
 
-    if (highlight) {
-      highlight.replaceWith(replacement);
-    } else if (pre) {
-      pre.replaceWith(replacement);
-    } else {
-      code.replaceWith(replacement);
+      if (highlight) {
+        highlight.replaceWith(replacement);
+      } else if (pre) {
+        pre.replaceWith(replacement);
+      } else {
+        code.replaceWith(replacement);
+      }
+
+      renderTargets.push(replacement);
     }
 
-    renderTargets.push(replacement);
+    await mermaid.run({
+      nodes: renderTargets
+    });
+  } catch (error) {
+    console.warn("Mermaid rendering skipped:", error);
   }
-
-  await mermaid.run({
-    nodes: renderTargets
-  });
 });
