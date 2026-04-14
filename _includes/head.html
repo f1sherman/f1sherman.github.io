@@ -1,14 +1,26 @@
+{% assign meta_title = site.title %}
+{% if page.title %}
+  {% assign meta_title = page.title | append: " | " | append: site.title %}
+{% endif %}
+{% assign meta_description = page.excerpt | default: site.description | strip_html | strip_newlines | truncate: 160 %}
+{% assign canonical_url = page.url | replace:'index.html','' | absolute_url %}
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
-  <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+  <title>{{ meta_title }}</title>
+  <meta name="description" content="{{ meta_description }}">
+  <meta name="theme-color" content="#e9f0f6">
 
-  <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
-  <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
-  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}">
+  <link rel="canonical" href="{{ canonical_url }}">
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ '/feed.xml' | absolute_url }}">
 
   {% include google-analytics.html %}
 </head>

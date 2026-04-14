@@ -1,19 +1,13 @@
 <header class="site-header">
+  <div class="wrapper site-header__inner">
+    <div class="site-header__brand">
+      <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+      <p class="site-tagline">{{ site.description | split: '. ' | first }}.</p>
+    </div>
 
-  <div class="wrapper">
-
-    <a class="site-title" href="{{ site.baseurl }}/">{{ site.title }}</a>
-
-    <nav class="site-nav">
-      <div class="trigger">
-        {% for page in site.pages %}
-          {% if page.title %}
-          <a class="page-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
-          {% endif %}
-        {% endfor %}
-      </div>
+    <nav class="site-nav" aria-label="Primary">
+      <a class="site-nav__link" href="{{ '/' | relative_url }}">Home</a>
+      <a class="site-nav__link" href="{{ '/feed.xml' | relative_url }}">RSS</a>
     </nav>
-
   </div>
-
 </header>
