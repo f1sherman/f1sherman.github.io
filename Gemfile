@@ -1,5 +1,7 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
-gem 'github-pages'
-
-gem 'webrick'
+gem "jekyll", "~> 4.4"
+gem "jekyll-gist", "~> 1.5"
+gem "jekyll-sitemap", "~> 1.4"
+gem "kramdown-parser-gfm", "~> 1.1"
+gem "webrick", "~> 1.8"

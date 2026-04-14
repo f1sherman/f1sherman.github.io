@@ -1,15 +1,17 @@
 **Adding a new blog entry**
 
 1. Add a file under `_posts` with the format `YYYY-MM-DD-title-of-my-post.markdown`
-2. Commit your changes and push to Github
-3. Submit the page to be indexed using [Google Webmaster Tools](https://www.google.com/webmasters/tools/home?hl=en)
+2. Run the local verification steps below
+3. Commit your changes
+4. Push once you are ready for the GitHub Pages workflow to deploy the site
 
-**Testing Locally**
+**Testing locally**
 
 1. `bundle install`
-2. `bundle exec jekyll serve`
-3. Test changes at [http://localhost:4000](http://localhost:4000)
+2. `bundle exec jekyll build`
+3. `bundle exec jekyll serve`
+4. Test changes at [http://localhost:4000](http://localhost:4000)
 
+**Deployment**
 
-More can be found here:
-https://jekyllrb.com/docs/github-pages/
+The site is deployed by the GitHub Actions Pages workflow in `.github/workflows/pages.yml`.

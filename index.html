@@ -2,22 +2,32 @@
 layout: default
 ---
 
-<div class="home">
+<section class="home-intro">
+  <h1 class="home-intro__title">Programming, automation, and home lab notes</h1>
+  <p class="home-intro__body">Writeups and experiments from Brian John.</p>
+</section>
 
-  <h1 class="page-heading">Posts</h1>
+<section class="post-index" aria-labelledby="posts-heading">
+  <div class="post-index__header">
+    <h2 id="posts-heading" class="page-heading">Latest posts</h2>
+    <a class="post-index__rss" href="{{ '/feed.xml' | relative_url }}">Subscribe via RSS</a>
+  </div>
 
-  <ul class="post-list">
+  <ol class="post-list">
     {% for post in site.posts %}
-      <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+      {% assign primary_category = post.categories | first %}
+      <li class="post-list__item">
+        <p class="post-list__meta">
+          {% if primary_category %}
+            <span class="post-list__category">{{ primary_category }}</span>
+          {% endif %}
+          <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %-d, %Y" }}</time>
+        </p>
 
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
+        <h3 class="post-list__title">
+          <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        </h3>
       </li>
     {% endfor %}
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
-
-</div>
+  </ol>
+</section>

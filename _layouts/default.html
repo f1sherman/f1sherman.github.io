@@ -1,19 +1,35 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
   {% include head.html %}
 
-  <body>
-    {% include header.html %}
+  {% assign body_class = "site-body" %}
+  {% if page.layout %}
+    {% assign body_class = body_class | append: " layout-" | append: page.layout %}
+  {% endif %}
+  {% if page.url == "/" %}
+    {% assign body_class = body_class | append: " page-home" %}
+  {% else %}
+    {% assign body_class = body_class | append: " page-interior" %}
+  {% endif %}
+  {% assign mermaid_init_assets = site.static_files | where: "path", "/assets/js/mermaid-init.js" %}
 
-    <div class="page-content">
-      <div class="wrapper">
-        {{ content }}
-      </div>
+  <body class="{{ body_class }}">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <div class="site-frame">
+      {% include header.html %}
+
+      <main id="main-content" class="page-content" aria-label="Content">
+        <div class="wrapper">
+          {{ content }}
+        </div>
+      </main>
+
+      {% include footer.html %}
     </div>
 
-    {% include footer.html %}
-
+    {% if mermaid_init_assets.size > 0 %}
+      <script type="module" src="{{ '/assets/js/mermaid-init.js' | relative_url }}"></script>
+    {% endif %}
   </body>
-
 </html>
