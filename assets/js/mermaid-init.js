@@ -43,7 +43,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       nodes: renderTargets
     });
   } catch (error) {
-    for (const { nextSibling, original, parent, replacement } of restorations.toReversed()) {
+    for (let index = restorations.length - 1; index >= 0; index -= 1) {
+      const { nextSibling, original, parent, replacement } = restorations[index];
+
       if (!parent || !replacement.isConnected) {
         continue;
       }
