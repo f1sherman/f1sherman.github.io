@@ -11,6 +11,7 @@
   {% else %}
     {% assign body_class = body_class | append: " page-interior" %}
   {% endif %}
+  {% assign mermaid_init_assets = site.static_files | where: "path", "/assets/js/mermaid-init.js" %}
 
   <body class="{{ body_class }}">
     <a class="skip-link" href="#main-content">Skip to content</a>
@@ -27,6 +28,8 @@
       {% include footer.html %}
     </div>
 
-    <script type="module" src="{{ '/assets/js/mermaid-init.js' | relative_url }}"></script>
+    {% if mermaid_init_assets.size > 0 %}
+      <script type="module" src="{{ '/assets/js/mermaid-init.js' | relative_url }}"></script>
+    {% endif %}
   </body>
 </html>
