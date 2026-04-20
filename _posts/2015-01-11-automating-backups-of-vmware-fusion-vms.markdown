@@ -83,7 +83,43 @@ Wrapping it up into a script
 
 Here is the full script for the above. Note: you'll need to make the script executable to run it (e.g. `chmod +x /path/to/backup-fusion.sh`).
 
-{% gist c3bfd69600ce81e3d982 %}
+{% highlight bash %}
+#!/bin/bash
+
+# Fail this script if any commands fail (-e) or if any uninitialized variables are referenced (-u)
+set -e -u
+
+# Set the following variables based on your environment
+VMX='/path/to/file.vmx'
+BACKUP_DIR='/path/to/backup/directory'
+VMRUN='/Applications/VMware Fusion.app/Contents/Library/vmrun'
+NUM_BACKUPS_TO_KEEP=3
+
+# Make sure the VM gets started even if the backup fails
+trap startvm EXIT
+
+START_VM=false
+function startvm {
+  if $START_VM; then # only start the VM if it was running when we began the backup
+    "$VMRUN" start "$VMX"
+  fi
+}
+
+# *** Shut down the VM if it is running ***
+if "$VMRUN" list | grep --quiet "$VMX"; then
+  START_VM=true
+  "$VMRUN" stop "$VMX" soft
+fi
+
+# *** Create the backup file ***
+VMWAREVM="${VMX%/*}" # Remove the .vmx filename to get the full path to the .vmwarevm bundle
+cd "$VMWAREVM"
+tar -czpf "$BACKUP_DIR"/fusion-backup-`date +%Y%m%d-%H%M%S`.tar.gz --exclude '*.vmem' *
+
+# *** Delete all but the most recent backup files ***
+cd "$BACKUP_DIR"
+(ls -t | head -n $NUM_BACKUPS_TO_KEEP; ls) | sort | uniq -u | xargs rm
+{% endhighlight %}
 
 Scheduling backups
 ==================

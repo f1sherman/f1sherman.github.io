@@ -204,7 +204,6 @@ Base dependency direction:
 
 - `jekyll`
 - `jekyll-sitemap`
-- `jekyll-gist`
 - `webrick`
 
 Additional gems are allowed only if they are required by a concrete feature implemented in this branch.

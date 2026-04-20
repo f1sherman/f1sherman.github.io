@@ -18,7 +18,6 @@ kramdown:
 
 plugins:
   - jekyll-sitemap
-  - jekyll-gist
 
 exclude:
   - docs
