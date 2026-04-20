@@ -12,6 +12,14 @@ require_file() {
   }
 }
 
+require_no_file() {
+  local path="$1"
+  [[ ! -e "$path" ]] || {
+    echo "unexpected file present: $path" >&2
+    exit 1
+  }
+}
+
 require_eq() {
   local actual="$1"
   local expected="$2"
@@ -22,9 +30,21 @@ require_eq() {
   }
 }
 
+require_no_match() {
+  local path="$1"
+  local pattern="$2"
+  local message="$3"
+  if rg -q "$pattern" "$path"; then
+    echo "$message: found pattern '$pattern' in $path" >&2
+    exit 1
+  fi
+}
+
 require_file "renovate.json"
 require_file ".github/workflows/renovate.yml"
-require_file ".github/workflows/renovate-review.yml"
+require_no_file ".github/workflows/renovate-review.yml"
+require_no_match "README.md" 'RENOVATE_APP_SLUG' "README should not document an in-repo review workflow slug"
+require_no_match "README.md" 'CLAUDE_CODE_OAUTH_TOKEN' "README should not document Claude review secret setup"
 
 schema="$(jq -r '."$schema"' renovate.json)"
 extends0="$(jq -r '.extends[0]' renovate.json)"
@@ -51,9 +71,3 @@ require_eq "$checkout_uses" "actions/checkout@v6.0.1" "checkout action mismatch"
 require_eq "$renovate_uses" "renovatebot/github-action@v44.0.3" "Renovate action mismatch"
 require_eq "$token_expr" '${{ steps.app_token.outputs.token }}' "Renovate token mismatch"
 require_eq "$repo_expr" '${{ github.repository }}' "RENOVATE_REPOSITORIES mismatch"
-
-review_types="$(yq -r '.on.pull_request.types | join(",")' .github/workflows/renovate-review.yml)"
-review_if="$(yq -r '.jobs.review.if' .github/workflows/renovate-review.yml)"
-
-require_eq "$review_types" "opened,synchronize,reopened" "Review trigger mismatch"
-require_eq "$review_if" "github.event.pull_request.user.login == 'renovate[bot]' || github.event.pull_request.user.login == 'renovate-bot' || github.event.pull_request.user.login == format('{0}[bot]', vars.RENOVATE_APP_SLUG)" "Review gate mismatch"
