@@ -22,5 +22,3 @@ This repository expects these GitHub repository settings for Renovate:
 
 - secret `RENOVATE_APP_ID`
 - secret `RENOVATE_APP_PRIVATE_KEY`
-- variable `RENOVATE_APP_SLUG`
-- secret `CLAUDE_CODE_OAUTH_TOKEN`
