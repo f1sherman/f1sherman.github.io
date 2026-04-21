@@ -16,7 +16,58 @@ The Script
 
 Here is the script.
 
-{% gist 1c6c5e5f31c1fab33bbd1028c15d88e1 %}
+{% highlight ruby %}
+#!/usr/bin/env ruby
+
+# Scans the network and sends an email whenever new hosts are detected. Uses MAC address to identify hosts.
+# Published here: https://gist.github.com/f1sherman/1c6c5e5f31c1fab33bbd1028c15d88e1
+
+EMAIL = 'you@example.com'
+
+require 'set'
+require 'yaml'
+require 'net/smtp'
+
+def send_alert(arpscan_info, nslookup_info)
+  subject = "WARNING - A New Host Has Joined The Network"
+
+  message = "#{arpscan_info}\n\n#{nslookup_info}"
+
+  Net::SMTP.start('localhost', 25) do |smtp|
+    mail_message = <<~EOS
+      From: Notify New Hosts <#{EMAIL}>
+      To: #{EMAIL}
+      Subject: #{subject}
+      #{message}"
+    EOS
+
+    smtp.send_message mail_message, EMAIL, EMAIL
+  end
+end
+
+data_file = "#{ENV['HOME']}/.notify-new-hosts.yml"
+
+known_hosts = File.exists?(data_file) ? YAML.load_file(data_file) : Set.new
+
+arpscan_output = %x(arp-scan --localnet)
+
+raise "arp-scan failed: #{arpscan_output}" unless $?.to_i == 0
+
+host_lines = arpscan_output.split("\n").grep(/^\d+\.\d+\.\d+\.\d+/)
+
+host_lines.each_with_object([]) do |line|
+  ip, mac = line.split("\t")
+  next if known_hosts.include? mac
+
+  nslookup_output = %x(nslookup #{ip})
+  send_alert line, nslookup_output
+  known_hosts << mac
+end
+
+File.open data_file, 'w' do |out|
+  YAML.dump known_hosts, out
+end
+{% endhighlight %}
 
 Why Ruby?
 =========
