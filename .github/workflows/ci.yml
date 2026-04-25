@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  shell-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Run shell tests
+        run: |
+          set -euo pipefail
+          bash tests/no-jekyll-gist.sh
+          bash tests/renovate-config.sh
+          bash tests/codex-pr-review-workflow.sh
