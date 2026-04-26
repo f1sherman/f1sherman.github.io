@@ -144,6 +144,15 @@ result = runner_for(client: client).evaluate_pr(same_repo_pr)
 assert result.merged?
 assert_equal [["/pulls/7/merge", { "sha" => "abc123", "merge_method" => "rebase" }]], client.puts
 
+comments = [
+  comment(REVIEW_BODY, created_at: "2026-04-26T18:00:00Z"),
+  comment("Not merging PR #7: combined status is not successful", created_at: "2026-04-26T19:00:00Z")
+]
+client = client_for(comments: comments)
+result = runner_for(client: client).evaluate_pr(same_repo_pr)
+assert result.merged?
+assert_equal [["/pulls/7/merge", { "sha" => "abc123", "merge_method" => "rebase" }]], client.puts
+
 comments = [comment(REVIEW_BODY, author: "renovate[bot]")]
 result = runner_for(client: client_for(comments: comments)).evaluate_pr(same_repo_pr)
 refute result.merged?
@@ -162,6 +171,11 @@ assert_match(/check/i, runner_for(client: client_for(check_runs: pending)).evalu
 result = runner_for(client: client_for(status: { "state" => "failure" })).evaluate_pr(same_repo_pr)
 refute result.merged?
 assert_match(/status/i, result.reason)
+
+client = client_for(status: { "state" => "pending", "total_count" => 0, "statuses" => [] })
+result = runner_for(client: client).evaluate_pr(same_repo_pr)
+assert result.merged?
+assert_equal [["/pulls/7/merge", { "sha" => "abc123", "merge_method" => "rebase" }]], client.puts
 
 client = client_for(status: { "state" => "failure" })
 runner_for(client: client).evaluate_pr(same_repo_pr)
