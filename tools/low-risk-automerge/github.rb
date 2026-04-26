@@ -83,6 +83,8 @@ module LowRiskAutomerge
 
       client.put_json("/pulls/#{number}/merge", { "sha" => head_sha, "merge_method" => "rebase" })
       Decision.new(pr_number: number, merged: true, reason: "Merged PR ##{number}")
+    rescue HttpError => e
+      blocked(pr, "Not merging PR ##{number}: merge failed: #{e.message}")
     end
 
     private
@@ -91,6 +93,8 @@ module LowRiskAutomerge
 
     def candidate_prs
       payload = event_payload
+      return [] if payload.key?("issue") && !payload.dig("issue", "pull_request")
+
       pr_number = payload.dig("inputs", "pr_number") || payload.dig("issue", "number") || payload.dig("pull_request", "number")
       return [client.get_json("/pulls/#{Integer(pr_number)}")] if pr_number.to_s.match?(/\A\d+\z/) && pr_event?(payload)
 
@@ -138,8 +142,16 @@ module LowRiskAutomerge
 
     def blocked(pr, reason)
       number = pr.fetch("number")
+      return Decision.new(pr_number: number, merged: false, reason: reason) if refusal_comment_exists?(number, reason)
+
       client.post_json("/issues/#{number}/comments", { "body" => reason })
       Decision.new(pr_number: number, merged: false, reason: reason)
+    end
+
+    def refusal_comment_exists?(number, reason)
+      client.get_json("/issues/#{number}/comments").any? do |comment|
+        comment.dig("user", "login") == bot_author && comment["body"].to_s.include?(reason)
+      end
     end
   end
 end

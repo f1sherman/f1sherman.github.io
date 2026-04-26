@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require "fileutils"
+require "tmpdir"
+
 require_relative "../tools/low-risk-automerge/common"
 require_relative "../tools/low-risk-automerge/github"
 
@@ -164,5 +167,28 @@ client = client_for(status: { "state" => "failure" })
 runner_for(client: client).evaluate_pr(same_repo_pr)
 assert_equal "/issues/7/comments", client.posts.first.first
 assert_match(/not merging/i, client.posts.first.last.fetch("body"))
+
+client = client_for(
+  comments: [
+    comment(REVIEW_BODY),
+    comment("Not merging PR #7: combined status is not successful")
+  ],
+  status: { "state" => "failure" }
+)
+runner_for(client: client).evaluate_pr(same_repo_pr)
+assert_equal [], client.posts
+
+tmpdir = Dir.mktmpdir("low-risk-automerge-event")
+event_path = File.join(tmpdir, "event.json")
+File.write(event_path, JSON.generate({ "issue" => { "number" => 7 } }))
+client = client_for
+runner = LowRiskAutomerge::GitHubRunner.new(
+  client: client,
+  repo: "owner/repo",
+  bot_author: "github-actions[bot]",
+  event_path: event_path
+)
+assert_equal [], runner.send(:candidate_prs)
+FileUtils.rm_rf(tmpdir)
 
 puts "PASS low-risk automerge github"
