@@ -118,13 +118,23 @@ module LowRiskAutomerge
     end
 
     def latest_trusted_metadata(number)
-      trusted_comments = client.get_json("/issues/#{number}/comments").select do |comment|
-        comment.dig("user", "login") == bot_author
-      end
-      latest = trusted_comments.max_by { |comment| Time.parse(comment.fetch("created_at", "1970-01-01T00:00:00Z")) }
-      return nil unless latest
+      latest_metadata = nil
+      latest_at = Time.at(0)
 
-      MetadataParser.parse(latest["body"])
+      client.get_json("/issues/#{number}/comments").each do |comment|
+        next unless comment.dig("user", "login") == bot_author
+
+        metadata = MetadataParser.parse(comment["body"])
+        next unless metadata
+
+        created_at = Time.parse(comment.fetch("created_at", "1970-01-01T00:00:00Z"))
+        next unless created_at >= latest_at
+
+        latest_at = created_at
+        latest_metadata = metadata
+      end
+
+      latest_metadata
     end
 
     def check_runs_success?(head_sha)
@@ -137,7 +147,13 @@ module LowRiskAutomerge
     end
 
     def combined_status_success?(head_sha)
-      client.get_json("/commits/#{head_sha}/status").fetch("state") == "success"
+      payload = client.get_json("/commits/#{head_sha}/status")
+      return true if payload["state"] == "success"
+
+      statuses = payload.fetch("statuses", [])
+      payload["state"] == "pending" &&
+        payload.fetch("total_count", statuses.length).to_i.zero? &&
+        statuses.empty?
     end
 
     def blocked(pr, reason)
