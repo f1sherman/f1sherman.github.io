@@ -81,8 +81,8 @@ REVIEW_BODY = <<~BODY
   ## Codex Review
 BODY
 
-def runner_for(client: client_for)
-  LowRiskAutomerge::GitHubRunner.new(client: client, repo: "owner/repo", bot_author: "github-actions[bot]")
+def runner_for(client: client_for, trusted_authors: ["github-actions[bot]"])
+  LowRiskAutomerge::GitHubRunner.new(client: client, repo: "owner/repo", trusted_authors: trusted_authors)
 end
 
 def client_for(comments: [comment(REVIEW_BODY)], check_runs: success_check_runs, status: { "state" => "success" })
@@ -158,6 +158,12 @@ result = runner_for(client: client_for(comments: comments)).evaluate_pr(same_rep
 refute result.merged?
 assert_match(/trusted/i, result.reason)
 
+comments = [comment(REVIEW_BODY, author: "f1sherman")]
+client = client_for(comments: comments)
+result = runner_for(client: client, trusted_authors: ["github-actions[bot]", "f1sherman"]).evaluate_pr(same_repo_pr)
+assert result.merged?
+assert_equal [["/pulls/7/merge", { "sha" => "abc123", "merge_method" => "rebase" }]], client.puts
+
 comments = [comment(REVIEW_BODY.sub("abc123", "oldsha"))]
 result = runner_for(client: client_for(comments: comments)).evaluate_pr(same_repo_pr)
 refute result.merged?
@@ -199,7 +205,7 @@ client = client_for
 runner = LowRiskAutomerge::GitHubRunner.new(
   client: client,
   repo: "owner/repo",
-  bot_author: "github-actions[bot]",
+  trusted_authors: ["github-actions[bot]"],
   event_path: event_path
 )
 assert_equal [], runner.send(:candidate_prs)
