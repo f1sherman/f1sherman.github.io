@@ -56,10 +56,10 @@ module LowRiskAutomerge
   class GitHubRunner
     OWN_CHECK_NAME = "Low-Risk Automerge"
 
-    def initialize(client:, repo:, bot_author: ENV.fetch("LOW_RISK_AUTOMERGE_BOT_AUTHOR", "github-actions[bot]"), event_path: ENV["LOW_RISK_AUTOMERGE_EVENT_PATH"], stdout: $stdout)
+    def initialize(client:, repo:, trusted_authors: self.class.default_trusted_authors, event_path: ENV["LOW_RISK_AUTOMERGE_EVENT_PATH"], stdout: $stdout)
       @client = client
       @repo = repo
-      @bot_author = bot_author
+      @trusted_authors = trusted_authors
       @event_path = event_path
       @stdout = stdout
     end
@@ -89,7 +89,12 @@ module LowRiskAutomerge
 
     private
 
-    attr_reader :bot_author, :client, :event_path, :repo, :stdout
+    attr_reader :client, :event_path, :repo, :stdout, :trusted_authors
+
+    def self.default_trusted_authors
+      value = ENV["LOW_RISK_AUTOMERGE_TRUSTED_AUTHORS"] || ENV.fetch("LOW_RISK_AUTOMERGE_BOT_AUTHOR", "github-actions[bot]")
+      value.split(",").map(&:strip).reject(&:empty?)
+    end
 
     def candidate_prs
       payload = event_payload
@@ -122,7 +127,7 @@ module LowRiskAutomerge
       latest_at = Time.at(0)
 
       client.get_json("/issues/#{number}/comments").each do |comment|
-        next unless comment.dig("user", "login") == bot_author
+        next unless trusted_authors.include?(comment.dig("user", "login"))
 
         metadata = MetadataParser.parse(comment["body"])
         next unless metadata
@@ -166,7 +171,7 @@ module LowRiskAutomerge
 
     def refusal_comment_exists?(number, reason)
       client.get_json("/issues/#{number}/comments").any? do |comment|
-        comment.dig("user", "login") == bot_author && comment["body"].to_s.include?(reason)
+        trusted_authors.include?(comment.dig("user", "login")) && comment["body"].to_s.include?(reason)
       end
     end
   end
