@@ -33,4 +33,5 @@ jobs:
           LOW_RISK_AUTOMERGE_REPO: ${{ github.repository }}
           LOW_RISK_AUTOMERGE_EVENT_PATH: ${{ github.event_path }}
           LOW_RISK_AUTOMERGE_TRUSTED_AUTHORS: github-actions[bot],f1sherman
+          LOW_RISK_AUTOMERGE_REQUIRED_CHECKS: CI,Deploy Jekyll site to Pages
         run: ruby tools/low-risk-automerge/github.rb

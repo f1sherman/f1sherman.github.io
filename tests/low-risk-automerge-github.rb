@@ -46,8 +46,10 @@ class FakeGitHubClient
 
   def get_json(path)
     case path
-    when %r{\A/issues/(\d+)/comments\z}
-      @comments.fetch(Regexp.last_match(1).to_i)
+    when %r{\A/issues/(\d+)/comments(?:\?per_page=\d+&page=(\d+))?\z}
+      comments = @comments.fetch(Regexp.last_match(1).to_i)
+      page = (Regexp.last_match(2) || 1).to_i
+      comments.is_a?(Hash) ? comments.fetch(page, []) : (page == 1 ? comments : [])
     when %r{\A/commits/([^/]+)/check-runs\z}
       @check_runs.fetch(Regexp.last_match(1))
     when %r{\A/commits/([^/]+)/status\z}
@@ -81,8 +83,13 @@ REVIEW_BODY = <<~BODY
   ## Codex Review
 BODY
 
-def runner_for(client: client_for, trusted_authors: ["github-actions[bot]"])
-  LowRiskAutomerge::GitHubRunner.new(client: client, repo: "owner/repo", trusted_authors: trusted_authors)
+def runner_for(client: client_for, trusted_authors: ["github-actions[bot]"], required_checks: ["CI", "Deploy Jekyll site to Pages"])
+  LowRiskAutomerge::GitHubRunner.new(
+    client: client,
+    repo: "owner/repo",
+    trusted_authors: trusted_authors,
+    required_checks: required_checks
+  )
 end
 
 def client_for(comments: [comment(REVIEW_BODY)], check_runs: success_check_runs, status: { "state" => "success" })
@@ -173,6 +180,12 @@ failed = { "check_runs" => [{ "name" => "CI", "status" => "completed", "conclusi
 pending = { "check_runs" => [{ "name" => "CI", "status" => "in_progress", "conclusion" => nil }] }
 assert_match(/check/i, runner_for(client: client_for(check_runs: failed)).evaluate_pr(same_repo_pr).reason)
 assert_match(/check/i, runner_for(client: client_for(check_runs: pending)).evaluate_pr(same_repo_pr).reason)
+missing = { "check_runs" => [] }
+result = runner_for(
+  client: client_for(check_runs: missing, status: { "state" => "pending", "total_count" => 0, "statuses" => [] })
+).evaluate_pr(same_repo_pr)
+refute result.merged?
+assert_match(/check/i, result.reason)
 
 result = runner_for(client: client_for(status: { "state" => "failure" })).evaluate_pr(same_repo_pr)
 refute result.merged?
@@ -197,6 +210,15 @@ client = client_for(
 )
 runner_for(client: client).evaluate_pr(same_repo_pr)
 assert_equal [], client.posts
+
+comments = {
+  1 => [comment(REVIEW_BODY.sub("abc123", "oldsha"), created_at: "2026-04-26T18:00:00Z")],
+  2 => [comment(REVIEW_BODY, created_at: "2026-04-26T19:00:00Z")]
+}
+client = client_for(comments: comments)
+result = runner_for(client: client).evaluate_pr(same_repo_pr)
+assert result.merged?
+assert_equal [["/pulls/7/merge", { "sha" => "abc123", "merge_method" => "rebase" }]], client.puts
 
 tmpdir = Dir.mktmpdir("low-risk-automerge-event")
 event_path = File.join(tmpdir, "event.json")
