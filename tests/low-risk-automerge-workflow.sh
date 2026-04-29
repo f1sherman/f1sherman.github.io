@@ -17,4 +17,5 @@ grep -Fq "checks: read" "$WORKFLOW"
 grep -Fq "statuses: read" "$WORKFLOW"
 grep -Fq "ruby tools/low-risk-automerge/github.rb" "$WORKFLOW"
 grep -Fq "LOW_RISK_AUTOMERGE_TRUSTED_AUTHORS: github-actions[bot],f1sherman" "$WORKFLOW"
+grep -Fq "LOW_RISK_AUTOMERGE_REQUIRED_CHECKS: CI,Deploy Jekyll site to Pages" "$WORKFLOW"
 printf 'PASS f1sherman.github.io low-risk automerge workflow wiring\n'

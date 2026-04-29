@@ -56,10 +56,11 @@ module LowRiskAutomerge
   class GitHubRunner
     OWN_CHECK_NAME = "Low-Risk Automerge"
 
-    def initialize(client:, repo:, trusted_authors: self.class.default_trusted_authors, event_path: ENV["LOW_RISK_AUTOMERGE_EVENT_PATH"], stdout: $stdout)
+    def initialize(client:, repo:, trusted_authors: self.class.default_trusted_authors, required_checks: self.class.default_required_checks, event_path: ENV["LOW_RISK_AUTOMERGE_EVENT_PATH"], stdout: $stdout)
       @client = client
       @repo = repo
       @trusted_authors = trusted_authors
+      @required_checks = required_checks
       @event_path = event_path
       @stdout = stdout
     end
@@ -89,10 +90,15 @@ module LowRiskAutomerge
 
     private
 
-    attr_reader :client, :event_path, :repo, :stdout, :trusted_authors
+    attr_reader :client, :event_path, :repo, :stdout, :trusted_authors, :required_checks
 
     def self.default_trusted_authors
       value = ENV["LOW_RISK_AUTOMERGE_TRUSTED_AUTHORS"] || ENV.fetch("LOW_RISK_AUTOMERGE_BOT_AUTHOR", "github-actions[bot]")
+      value.split(",").map(&:strip).reject(&:empty?)
+    end
+
+    def self.default_required_checks
+      value = ENV.fetch("LOW_RISK_AUTOMERGE_REQUIRED_CHECKS", "CI,Deploy Jekyll site to Pages")
       value.split(",").map(&:strip).reject(&:empty?)
     end
 
@@ -126,7 +132,7 @@ module LowRiskAutomerge
       latest_metadata = nil
       latest_at = Time.at(0)
 
-      client.get_json("/issues/#{number}/comments").each do |comment|
+      issue_comments(number).each do |comment|
         next unless trusted_authors.include?(comment.dig("user", "login"))
 
         metadata = MetadataParser.parse(comment["body"])
@@ -144,11 +150,14 @@ module LowRiskAutomerge
 
     def check_runs_success?(head_sha)
       runs = client.get_json("/commits/#{head_sha}/check-runs").fetch("check_runs")
+      found_required_checks = {}
+
       runs.all? do |run|
         next true if run["name"] == OWN_CHECK_NAME && run["status"] == "in_progress"
 
+        found_required_checks[run["name"]] = true if required_checks.include?(run["name"])
         run["status"] == "completed" && run["conclusion"] == "success"
-      end
+      end && required_checks.all? { |name| found_required_checks[name] }
     end
 
     def combined_status_success?(head_sha)
@@ -170,9 +179,24 @@ module LowRiskAutomerge
     end
 
     def refusal_comment_exists?(number, reason)
-      client.get_json("/issues/#{number}/comments").any? do |comment|
+      issue_comments(number).any? do |comment|
         trusted_authors.include?(comment.dig("user", "login")) && comment["body"].to_s.include?(reason)
       end
+    end
+
+    def issue_comments(number)
+      comments = []
+      page = 1
+
+      loop do
+        page_comments = client.get_json("/issues/#{number}/comments?per_page=100&page=#{page}")
+        break if page_comments.empty?
+
+        comments.concat(page_comments)
+        page += 1
+      end
+
+      comments
     end
   end
 end
