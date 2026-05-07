@@ -8,7 +8,7 @@ require_no_match() {
   local path="$1"
   local pattern="$2"
   local message="$3"
-  if rg -q "$pattern" "$path"; then
+  if grep -REq "$pattern" "$path"; then
     echo "$message: found pattern '$pattern' in $path" >&2
     exit 1
   fi
