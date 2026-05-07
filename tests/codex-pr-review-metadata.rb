@@ -10,7 +10,9 @@ class CodexPrReviewMetadataTest < Minitest::Test
       "findings" => [],
       "overall_correctness" => "patch is correct",
       "overall_confidence_score" => 0.91,
-      "overall_explanation" => "No actionable findings."
+      "overall_explanation" => "No actionable findings.",
+      "risk" => "low",
+      "merge_ok" => true
     }
 
     body = CodexPrReview::ReviewRunner.top_level_comment_body(

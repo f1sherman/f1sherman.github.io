@@ -284,8 +284,22 @@ module CodexPrReview
       inline_count:
     )
       priority_counts = counts_by_priority(output.fetch("findings"))
+      risk = output.fetch("risk")
+      merge_ok = output.fetch("merge_ok")
+      merge_ok_text = merge_ok ? "Yes" : "No"
       lines = []
+      lines << "<!-- codex-review:v1"
+      lines << "reviewed_head: #{reviewed_sha}"
+      lines << "risk: #{risk}"
+      lines << "merge_ok: #{merge_ok}"
+      lines << "reviewer: codex-pr-review"
+      lines << "-->"
+      lines << ""
       lines << "## Codex Review"
+      lines << ""
+      lines << "Risk: #{risk.capitalize}"
+      lines << "Merge OK: #{merge_ok_text}"
+      lines << "Reviewed Head: `#{reviewed_sha}`"
       lines << ""
       lines << "- Reviewed at: `#{reviewed_at}`"
       lines << "- Reviewed head SHA: `#{reviewed_sha}`"
