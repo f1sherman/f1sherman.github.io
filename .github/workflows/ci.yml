@@ -17,3 +17,4 @@ jobs:
           bash tests/no-jekyll-gist.sh
           bash tests/renovate-config.sh
           bash tests/codex-pr-review-workflow.sh
+          ruby tests/codex-pr-review-metadata.rb
