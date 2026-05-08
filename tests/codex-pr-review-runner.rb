@@ -11,9 +11,6 @@ end
 body = CodexPrReview::ReviewRunner.top_level_comment_body(
   reviewed_at: "2026-04-26T18:00:00Z",
   reviewed_sha: "abc123",
-  platform: "github",
-  repo: "f1sherman/f1sherman.github.io",
-  pr_number: 58,
   output: {
     "findings" => [],
     "overall_correctness" => "patch is correct",

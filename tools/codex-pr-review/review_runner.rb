@@ -178,9 +178,6 @@ module CodexPrReview
       top_level_comment = self.class.top_level_comment_body(
         reviewed_at: Time.now.utc.iso8601,
         reviewed_sha: head_sha,
-        platform: platform,
-        repo: repo,
-        pr_number: pr_number,
         output: output,
         unplaced_findings: unplaced,
         inline_count: placed.length
@@ -273,16 +270,7 @@ module CodexPrReview
       }
     end
 
-    def self.top_level_comment_body(
-      reviewed_at:,
-      reviewed_sha:,
-      platform:,
-      repo:,
-      pr_number:,
-      output:,
-      unplaced_findings:,
-      inline_count:
-    )
+    def self.top_level_comment_body(reviewed_at:, reviewed_sha:, output:, unplaced_findings:, inline_count:)
       priority_counts = counts_by_priority(output.fetch("findings"))
       risk = output.fetch("risk")
       merge_ok = output.fetch("merge_ok")
@@ -326,15 +314,6 @@ module CodexPrReview
           lines << "- **#{finding.fetch("title")}** (`#{file_path}:#{line_range.fetch("start")}`) #{finding.fetch("body")}"
         end
       end
-
-      lines << ""
-      lines << "<!-- pr-upkeep:v1"
-      lines << "kind: codex_review"
-      lines << "platform: #{platform}"
-      lines << "repo: #{repo}"
-      lines << "pr: #{pr_number}"
-      lines << "head_sha: #{reviewed_sha}"
-      lines << "-->"
 
       lines.join("\n")
     end
