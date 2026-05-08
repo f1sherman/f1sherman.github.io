@@ -74,15 +74,25 @@ yaml_value() {
   ' .github/workflows/renovate.yml "$1"
 }
 
+ignored_author_count() {
+  ruby -rjson -e '
+    data = JSON.parse(File.read(ARGV.shift))
+    author = ARGV.fetch(0)
+    puts data.fetch("gitIgnoredAuthors", []).count(author)
+  ' renovate.json "$1"
+}
+
 schema="$(json_value renovate.json '$schema')"
 extends0="$(json_value renovate.json extends 0)"
 min_age="$(json_value renovate.json minimumReleaseAge)"
 label0="$(json_value renovate.json labels 0)"
+ignored_author_count="$(ignored_author_count "PR Upkeeper <pr-upkeeper@brianjohn.com>")"
 
 require_eq "$schema" "https://docs.renovatebot.com/renovate-schema.json" "schema mismatch"
 require_eq "$extends0" "config:recommended" "extends mismatch"
 require_eq "$min_age" "7 days" "minimumReleaseAge mismatch"
 require_eq "$label0" "dependencies" "label mismatch"
+require_eq "$ignored_author_count" "1" "gitIgnoredAuthors should include PR Upkeeper"
 
 schedule0="$(yaml_value schedule0)"
 dispatch_count="$(yaml_value dispatch_count)"
