@@ -50,11 +50,13 @@ schema="$(jq -r '."$schema"' renovate.json)"
 extends0="$(jq -r '.extends[0]' renovate.json)"
 min_age="$(jq -r '.minimumReleaseAge' renovate.json)"
 label0="$(jq -r '.labels[0]' renovate.json)"
+ignored_author_count="$(jq --arg author "PR Upkeeper <pr-upkeeper@brianjohn.com>" '[.gitIgnoredAuthors[]? | select(. == $author)] | length' renovate.json)"
 
 require_eq "$schema" "https://docs.renovatebot.com/renovate-schema.json" "schema mismatch"
 require_eq "$extends0" "config:recommended" "extends mismatch"
 require_eq "$min_age" "7 days" "minimumReleaseAge mismatch"
 require_eq "$label0" "dependencies" "label mismatch"
+require_eq "$ignored_author_count" "1" "gitIgnoredAuthors should include PR Upkeeper"
 
 schedule0="$(yq -r '.on.schedule[0].cron' .github/workflows/renovate.yml)"
 dispatch_count="$(yq -r '.on.workflow_dispatch | length' .github/workflows/renovate.yml)"
