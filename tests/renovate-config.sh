@@ -69,7 +69,7 @@ repo_expr="$(yq -r '.jobs.renovate.steps[] | select(.name == "Self-hosted Renova
 require_eq "$schedule0" "23 3 * * *" "Renovate schedule mismatch"
 require_eq "$dispatch_count" "0" "workflow_dispatch should be an empty mapping"
 require_eq "$token_uses" "actions/create-github-app-token@v3.2.0" "GitHub App token action mismatch"
-require_eq "$checkout_uses" "actions/checkout@v6.0.3" "checkout action mismatch"
+require_eq "$checkout_uses" "actions/checkout@v7" "checkout action mismatch"
 require_eq "$renovate_uses" "renovatebot/github-action@v46.1.13" "Renovate action mismatch"
 require_eq "$token_expr" '${{ steps.app_token.outputs.token }}' "Renovate token mismatch"
 require_eq "$repo_expr" '${{ github.repository }}' "RENOVATE_REPOSITORIES mismatch"
