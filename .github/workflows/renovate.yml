@@ -19,18 +19,18 @@ jobs:
     steps:
       - name: Get GitHub App token
         id: app_token
-        uses: actions/create-github-app-token@v3.1.1
+        uses: actions/create-github-app-token@v3.2.0
         with:
           app-id: ${{ secrets.RENOVATE_APP_ID }}
           private-key: ${{ secrets.RENOVATE_APP_PRIVATE_KEY }}
           repositories: ${{ github.event.repository.name }}
 
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7
 
       - name: Self-hosted Renovate
         # Keep this action pinned so workflow changes remain reviewable.
-        uses: renovatebot/github-action@v46.1.13
+        uses: renovatebot/github-action@v46.1.14
         with:
           token: ${{ steps.app_token.outputs.token }}
         env:
