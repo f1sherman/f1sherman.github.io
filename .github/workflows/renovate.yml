@@ -30,7 +30,7 @@ jobs:
 
       - name: Self-hosted Renovate
         # Keep this action pinned so workflow changes remain reviewable.
-        uses: renovatebot/github-action@v46.1.14
+        uses: renovatebot/github-action@v46.1.16
         with:
           token: ${{ steps.app_token.outputs.token }}
         env:
