@@ -34,7 +34,7 @@ require_no_match() {
   local path="$1"
   local pattern="$2"
   local message="$3"
-  if grep -E -q -r "$pattern" "$path"; then
+  if grep -Eq "$pattern" "$path"; then
     echo "$message: found pattern '$pattern' in $path" >&2
     exit 1
   fi
@@ -46,11 +46,47 @@ require_no_file ".github/workflows/renovate-review.yml"
 require_no_match "README.md" 'RENOVATE_APP_SLUG' "README should not document an in-repo review workflow slug"
 require_no_match "README.md" 'CLAUDE_CODE_OAUTH_TOKEN' "README should not document Claude review secret setup"
 
-schema="$(jq -r '."$schema"' renovate.json)"
-extends0="$(jq -r '.extends[0]' renovate.json)"
-min_age="$(jq -r '.minimumReleaseAge' renovate.json)"
-label0="$(jq -r '.labels[0]' renovate.json)"
-ignored_author_count="$(jq --arg author "PR Upkeeper <pr-upkeeper@brianjohn.com>" '[.gitIgnoredAuthors[]? | select(. == $author)] | length' renovate.json)"
+json_value() {
+  ruby -rjson -e '
+    data = JSON.parse(File.read(ARGV.shift))
+    value = ARGV.reduce(data) do |current, key|
+      key.match?(/\A\d+\z/) ? current.fetch(key.to_i) : current.fetch(key)
+    end
+    puts value
+  ' "$@"
+}
+
+yaml_value() {
+  ruby -ryaml -e '
+    data = YAML.load_file(ARGV.shift)
+    data["on"] = data.delete(true) if data.key?(true) && !data.key?("on")
+    steps = data.fetch("jobs").fetch("renovate").fetch("steps")
+    values = {
+      "schedule0" => data.fetch("on").fetch("schedule").fetch(0).fetch("cron"),
+      "dispatch_count" => (data.fetch("on")["workflow_dispatch"] || {}).length,
+      "token_uses" => steps.find { |step| step["id"] == "app_token" }.fetch("uses"),
+      "checkout_uses" => steps.find { |step| step["name"] == "Checkout" }.fetch("uses"),
+      "renovate_uses" => steps.find { |step| step["name"] == "Self-hosted Renovate" }.fetch("uses"),
+      "token_expr" => steps.find { |step| step["name"] == "Self-hosted Renovate" }.fetch("with").fetch("token"),
+      "repo_expr" => steps.find { |step| step["name"] == "Self-hosted Renovate" }.fetch("env").fetch("RENOVATE_REPOSITORIES")
+    }
+    puts values.fetch(ARGV.fetch(0))
+  ' .github/workflows/renovate.yml "$1"
+}
+
+ignored_author_count() {
+  ruby -rjson -e '
+    data = JSON.parse(File.read(ARGV.shift))
+    author = ARGV.fetch(0)
+    puts data.fetch("gitIgnoredAuthors", []).count(author)
+  ' renovate.json "$1"
+}
+
+schema="$(json_value renovate.json '$schema')"
+extends0="$(json_value renovate.json extends 0)"
+min_age="$(json_value renovate.json minimumReleaseAge)"
+label0="$(json_value renovate.json labels 0)"
+ignored_author_count="$(ignored_author_count "PR Upkeeper <pr-upkeeper@brianjohn.com>")"
 
 require_eq "$schema" "https://docs.renovatebot.com/renovate-schema.json" "schema mismatch"
 require_eq "$extends0" "config:recommended" "extends mismatch"
@@ -58,13 +94,13 @@ require_eq "$min_age" "7 days" "minimumReleaseAge mismatch"
 require_eq "$label0" "dependencies" "label mismatch"
 require_eq "$ignored_author_count" "1" "gitIgnoredAuthors should include PR Upkeeper"
 
-schedule0="$(yq -r '.on.schedule[0].cron' .github/workflows/renovate.yml)"
-dispatch_count="$(yq -r '.on.workflow_dispatch | length' .github/workflows/renovate.yml)"
-token_uses="$(yq -r '.jobs.renovate.steps[] | select(.id == "app_token") | .uses' .github/workflows/renovate.yml)"
-checkout_uses="$(yq -r '.jobs.renovate.steps[] | select(.name == "Checkout") | .uses' .github/workflows/renovate.yml)"
-renovate_uses="$(yq -r '.jobs.renovate.steps[] | select(.name == "Self-hosted Renovate") | .uses' .github/workflows/renovate.yml)"
-token_expr="$(yq -r '.jobs.renovate.steps[] | select(.name == "Self-hosted Renovate") | .with.token' .github/workflows/renovate.yml)"
-repo_expr="$(yq -r '.jobs.renovate.steps[] | select(.name == "Self-hosted Renovate") | .env.RENOVATE_REPOSITORIES' .github/workflows/renovate.yml)"
+schedule0="$(yaml_value schedule0)"
+dispatch_count="$(yaml_value dispatch_count)"
+token_uses="$(yaml_value token_uses)"
+checkout_uses="$(yaml_value checkout_uses)"
+renovate_uses="$(yaml_value renovate_uses)"
+token_expr="$(yaml_value token_expr)"
+repo_expr="$(yaml_value repo_expr)"
 
 require_eq "$schedule0" "23 3 * * *" "Renovate schedule mismatch"
 require_eq "$dispatch_count" "0" "workflow_dispatch should be an empty mapping"
