@@ -104,7 +104,7 @@ repo_expr="$(yaml_value repo_expr)"
 
 require_eq "$schedule0" "23 3 * * *" "Renovate schedule mismatch"
 require_eq "$dispatch_count" "0" "workflow_dispatch should be an empty mapping"
-require_eq "$token_uses" "actions/create-github-app-token@v3.2.0" "GitHub App token action mismatch"
+require_eq "$token_uses" "actions/create-github-app-token@v3.3.0" "GitHub App token action mismatch"
 require_eq "$checkout_uses" "actions/checkout@v7" "checkout action mismatch"
 require_eq "$renovate_uses" "renovatebot/github-action@v46.1.16" "Renovate action mismatch"
 require_eq "$token_expr" '${{ steps.app_token.outputs.token }}' "Renovate token mismatch"
